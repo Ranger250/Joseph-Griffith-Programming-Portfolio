@@ -1,19 +1,48 @@
 # Sprite classes for platform game
 import pygame as pg
+import pygame.time
+
 from settings import *
 vec = pg.math.Vector2
+
+class Spritesheet:
+    # utility class for loading and parsing spritesheets
+    def __init__(self, filename):
+        self.spritesheet = pg.image.load(filename).convert()
+
+    def get_image(self, x, y, width, height):
+        # grab an image out of a larger spritesheet
+        image = pg.Surface((width, height))
+        image.blit(self.spritesheet, (0, 0), (x, y, width, height))
+        image = pg.transform.scale(image, (width // 2, height // 2))
+        return image
 
 class Player(pg.sprite.Sprite):
     def __init__(self, game):
         pg.sprite.Sprite.__init__(self)
         self.game = game
-        self.image = pg.Surface((30, 40))
-        self.image.fill(YELLOW)
+        self.walking = False
+        self.jumping = False
+        self.current_frame = 0
+        self.last_update = 0
+        self.load_images()
+        self.image = self.standing_frames[0]
+        self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH / 2, HEIGHT / 2)
         self.pos = vec(WIDTH / 2, HEIGHT / 2)
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
+
+    def load_images(self):
+        self.standing_frames = [self.game.spritesheet.get_image(614, 1063, 120, 191),
+                                self.game.spritesheet.get_image(690, 406, 120, 201)]
+        self.walk_frames_r = [self.game.spritesheet.get_image(678, 860, 120, 201),
+                              self.game.spritesheet.get_image(692, 1458, 120, 207)]
+        self.walk_frames_l = []
+        for frame in self.walk_frames_r:
+            self.walk_frames_l.append(pg.transform.flip(frame, True, False))
+        self.jump_frame = self.game.spritesheet.get_image(382, 763, 150, 181)
 
     def jump(self):
         # jump only if standing on a platform
@@ -24,6 +53,7 @@ class Player(pg.sprite.Sprite):
             self.vel.y = -PLAYER_JUMP
 
     def update(self):
+        self.animate()
         self.acc = vec(0, PLAYER_GRAV)
         keys = pg.key.get_pressed()
         if keys[pg.K_LEFT]:
@@ -43,6 +73,15 @@ class Player(pg.sprite.Sprite):
             self.pos.x = WIDTH
 
         self.rect.midbottom = self.pos
+
+    def animate(self):
+        now = pygame.time.get_ticks()
+        if not self.jumping and not self.walking:
+            if now - self.last_update > 200:
+                self.last_update = now
+                self.current_frame = (self.current_frame + 1) % len(self.standing_frames)
+                self.image = self.standing_frames[self.current_frame]
+
 
 class Platform(pg.sprite.Sprite):
     def __init__(self, x, y, w, h):
