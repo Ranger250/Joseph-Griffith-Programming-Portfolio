@@ -24,20 +24,20 @@ MOB_LAYER = 2
 CLOUD_LAYER = 0
 PLATFORM_NUM = 100
 ENEMY_NUM = 50
-STEP_NUM = 20
+
 
 
 # Evolution variables
-STEP_NUM = 2
+STEP_NUM = 6
 MUTATION_PER = 15
 GEN_TIME = 10
-GEN_NUM = 50
-NEW_STEP = 1
+GEN_NUM = 200
+NEW_STEP = 3
 
 # Starting platforms
 PLATFORM_LIST = [(0, HEIGHT - 60),
                  (WIDTH / 2 - 50, HEIGHT * 3 / 4),
-                 (125, HEIGHT - 350),
+                 (125, HEIGHT - 370),
                  (350, 200),
                  (175, 100)]
 

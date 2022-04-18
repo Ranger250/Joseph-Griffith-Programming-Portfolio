@@ -22,7 +22,7 @@ class Game:
         self.font_name = pg.font.match_font(FONT_NAME)
         self.load_data()
         self.scroll_speed = 0
-        self.list_of_steps = ["jump", "jump_right", "jump_left", "wait", "right", "left"]
+        self.list_of_steps = ["jump", "jump", "jump", "jump_right", "jump_right", "jump_right", "jump_right", "jump_left",  "jump_left", "jump_left", "jump_left","wait", "right", "left"]
         self.gen_timer = pg.time.get_ticks()
         self.new_gen_steps = []
         self.starting_pos = [40, HEIGHT - 100]
@@ -32,7 +32,8 @@ class Game:
         self.gen_time_stamp = 0
         self.last_best = -1000
         self.no_change = 0
-        self.top_score = 0
+        self.top_score = -100000000000
+        self.best_steps = []
 
     def load_data(self):
         # load high score
@@ -69,15 +70,20 @@ class Game:
         self.clouds = pg.sprite.Group()
         self.players = pg.sprite.Group()
 
+        for i in range(STEP_NUM):
+            self.best_steps.append([""])
+
         load_height = 0
         cloud_load_height = HEIGHT
         enemy_load_height = -300
         for i in range(GEN_NUM):
+
             steps = []
             for s in range(STEP_NUM):
                 step = [random.choice(self.list_of_steps), random.randrange(100, 3000)]
                 steps.append(step)
             player = Player(self, steps)
+            player.id = i
             self.players.add(player)
         # create starting platforms
         for plat in PLATFORM_LIST:
@@ -141,47 +147,64 @@ class Game:
         new_step = False
 
         self.last_best = self.top_score
-        self.top_score = -100000000000
+
         for sprite in self.players:
             sprite.calculate_score()
 
             if sprite.score > self.top_score:
-                self.top_score = sprite.score
+                if sprite.score > self.top_score:
+                    self.top_score = sprite.score
+                    print("new score")
+        base_steps = self.best_steps
         for sp in self.players:
             if sp.score == self.top_score:
                 base_steps = sp.steps
+                self.best_steps = base_steps
 
-                if self.no_change > NEW_STEP:
-                    new_step = True
-                    self.no_change = 0
-                    print("up steps")
-                print(len(base_steps))
+
+        if self.no_change > NEW_STEP:
+            new_step = True
+            self.no_change = 0
+            print("up steps")
+        print(len(base_steps))
 
         for pl in self.players:
+            print(pl.record)
             steps = copy.deepcopy(base_steps)
             for step in steps:
-                if random.randrange(1, 100) <= MUTATION_PER:
-                    step[0] = random.choice(self.list_of_steps)
-                if random.randrange(1, 100) <= MUTATION_PER:
-                    step[1] = random.randrange(100, 3000)
+                if pl.id > 0:
+                    if len(self.best_steps) - STEP_NUM >= 1:
+                        if len(steps) - steps.index(step) <= 1000:
+                            if random.randrange(1, 100) <= MUTATION_PER:
+                                step[0] = random.choice(self.list_of_steps)
+                            if random.randrange(1, 100) <= MUTATION_PER:
+                                step[1] = random.randrange(100, 3000)
+                    else:
+                        if random.randrange(1, 100) <= MUTATION_PER:
+                            step[0] = random.choice(self.list_of_steps)
+                        if random.randrange(1, 100) <= MUTATION_PER:
+                            step[1] = random.randrange(100, 3000)
+
             if new_step:
                 steps.append([random.choice(self.list_of_steps), random.randrange(100, 3000)])
-
 
             pl.steps = steps[:]
             pl.pos = vec(*self.starting_pos)
             pl.rect.center = (self.starting_pos[0], self.starting_pos[1])
             pl.vel = vec(0, 0)
             pl.acc = vec(0, 0)
-            pl.score = 0-pl.pos.y
-            pl.record = 0-pl.pos.y
+            pl.score = 0
+            pl.record = 0
             pl.record_time = 0
-            pl.height = 0-pl.pos.y
+            pl.height = 0
             pl.end = False
             pl.current_step = 0
             pl.last_step = 0
             pl.last_step_time = pg.time.get_ticks()
             pl.height -= self.screen_displacment
+        if new_step:
+            # steps.append([random.choice(self.list_of_steps), random.randrange(100, 3000)])
+            self.best_steps.append([random.choice(self.list_of_steps), random.randrange(100, 3000)])
         # mob_counter = 0
         for mob in self.mobs:
             mob.rect.centerx = WIDTH
@@ -244,7 +267,7 @@ class Game:
 
         # new gen?
         now = pg.time.get_ticks()
-        if now - self.gen_timer >= GEN_TIME * 1000:
+        if now - self.gen_timer >= len(self.best_steps) / 1 * 1000:
             self.new_gen()
             self.gen_timer = now
             return
@@ -267,6 +290,9 @@ class Game:
         # move screen based on scroll wheel
         for sprite in self.all_sprites:
             sprite.rect.y += -(self.scroll_speed * 5)
+        for player in self.players:
+            player.rect.y += (self.scroll_speed * 5)
+            player.pos.y += -(self.scroll_speed * 5)
         self.starting_pos[1] += -(self.scroll_speed * 5)
         for player in self.players:
             player.height += (self.scroll_speed * 5)

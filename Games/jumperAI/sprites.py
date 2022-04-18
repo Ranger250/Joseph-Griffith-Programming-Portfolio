@@ -42,10 +42,11 @@ class Player(pg.sprite.Sprite):
         self.steps = steps
         self.last_step_time = pg.time.get_ticks()
         self.end = False
-        self.record = -self.pos.y
-        self.height = -self.pos.y
+        self.record = 0
+        self.height = 0
         self.record_time = 0
         self.score = 0
+        self.id = 0
 
     def calculate_score(self):
         self.score = self.record - self.record_time/10000
@@ -125,8 +126,12 @@ class Player(pg.sprite.Sprite):
 
         now = pg.time.get_ticks()
         if self.height > self.record:
-            self.record = self.height
-            self.record_time = now - self.game.gen_time_stamp
+            self.rect.x += 2
+            hits = pg.sprite.spritecollide(self, self.game.platforms, False)
+            self.rect.x -= 2
+            if hits and not self.jumping:
+                self.record = self.height
+                self.record_time = now - self.game.gen_time_stamp
 
 
         self.acc = vec(0, PLAYER_GRAV)
@@ -159,7 +164,7 @@ class Player(pg.sprite.Sprite):
         if self.pos.x < 0 - self.rect.width / 2:
             self.pos.x = WIDTH + self.rect.width / 2
 
-        self.height = -self.pos.y
+        # self.height = -self.pos.y
         self.height -= self.vel.y + 0.5 * self.acc.y
 
         self.rect.midbottom = self.pos
