@@ -34,6 +34,10 @@ class Game:
                 self.highscore = 0
         # load spritesheet image
         self.spritesheet = Spritesheet(path.join(img_dir, SPRITESHEET))
+        # cloud images
+        self.cloud_images = []
+        for i in range(1,4):
+            self.cloud_images.append(pg.image.load(path.join(img_dir, 'cloud{}.png'.format(i))).convert())
         # load sounds
         self.audio_dir = path.join(assets_dir, 'audio')
         self.ambient_dir = path.join(self.audio_dir, 'ambient')
@@ -42,21 +46,23 @@ class Game:
         self.jump_sound = pg.mixer.Sound(path.join(self.fx_dir, 'Jump33.wav'))
         self.boost_sound = pg.mixer.Sound(path.join(self.fx_dir, 'Boost16.wav'))
 
-
-
     def new(self):
         # start a new game
         self.score = 0
-        self.all_sprites = pg.sprite.Group()
+        self.all_sprites = pg.sprite.LayeredUpdates()
         self.platforms = pg.sprite.Group()
         self.powerups = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
+        self.clouds = pg.sprite.Group()
         self.player = Player(self)
         # create starting platforms
         for plat in PLATFORM_LIST:
             Platform(self, *plat)
         self.mob_timer = 0
         pg.mixer.music.load(path.join(self.music_dir, 'Happy Tune.ogg'))
+        for i in range(8):
+            c = Cloud(self)
+            c.rect.y += 500
         self.run()
 
     def run(self):
@@ -94,6 +100,10 @@ class Game:
         if now - self.mob_timer > 5000 + random.choice([-1000, -500, 0 , 500, 1000]):
             self.mob_timer = now
             Mob(self)
+        # hit mobs?
+        mob_hits = pg.sprite.spritecollide(self.player, self.mobs, False, pg.sprite.collide_mask)
+        if mob_hits:
+            self.playing = False
 
         # check if player hits a platform - only if falling
         if self.player.vel.y > 0:
@@ -110,7 +120,13 @@ class Game:
                         self.player.jumping = False
         # if player reaches top 1/4 of screen
         if self.player.rect.top <= HEIGHT / 4:
+            if random.randrange(100) < 15:
+                Cloud(self)
             self.player.pos.y += max(abs(self.player.vel.y), 2)
+            for cloud in self.clouds:
+                cloud.rect.y += max(abs(self.player.vel.y / 2), 2)
+            for mob in self.mobs:
+                mob.rect.y += max(abs(self.player.vel.y), 2)
             for plat in self.platforms:
                 plat.rect.y += max(abs(self.player.vel.y), 2)
                 # Destroys platforms as they go off screen
@@ -135,7 +151,7 @@ class Game:
             self.playing = False
 
         # spawn new platforms to keep same average number
-        while len(self.platforms) < 6:
+        while len(self.platforms) < 7:
             width = random.randrange(50, 100)
             Platform(self, random.randrange(0, WIDTH-width),
                     random.randrange(-75, -30))
@@ -145,7 +161,6 @@ class Game:
         # Game Loop - draw
         self.screen.fill(BGCOLOR)
         self.all_sprites.draw(self.screen)
-        self.screen.blit(self.player.image, self.player.rect)
         self.draw_text(str(self.score), 22, WHITE, WIDTH / 2, 15)
         # *after* drawing everything, flip the display
         pg.display.flip()

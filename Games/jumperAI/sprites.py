@@ -21,7 +21,7 @@ class Spritesheet:
 
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, game):
+    def __init__(self, game, steps):
         self._layer = PLAYER_LAYER
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
@@ -37,6 +37,59 @@ class Player(pg.sprite.Sprite):
         self.pos = vec(40, HEIGHT - 100)
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
+        self.current_step = 0
+        self.last_step = 0
+        self.steps = steps
+        self.last_step_time = pg.time.get_ticks()
+        self.end = False
+        self.record = -self.pos.y
+        self.height = -self.pos.y
+        self.record_time = 0
+        self.score = 0
+
+    def calculate_score(self):
+        self.score = self.record - self.record_time/10000
+        if self.record_time == 0:
+            self.score = -1000000000000
+
+
+    def do_step(self):
+        now = pg.time.get_ticks()
+        if now - self.last_step_time >= self.steps[self.current_step][1]:
+            self.current_step += 1
+            self.last_step_time = now
+            if self.current_step > len(self.steps) - 1:
+                self.current_step = len(self.steps) - 1
+                self.end = True
+            if self.end:
+                self.vel.x = 0
+                return
+
+            self.last_step = self.current_step-1
+            if self.last_step < 0:
+                self.last_step = 0
+
+            if self.steps[self.last_step][0] == "jump" or self.steps[self.last_step][0] == "jump_right" or self.steps[self.last_step][0] == "jump_left":
+                self.jump_cut()
+            else:
+                self.acc.x = 0
+
+            if self.steps[self.current_step][0] == "jump":
+                self.jump()
+                self.acc.x = 0
+            elif self.steps[self.current_step][0] == "jump_right":
+                self.jump()
+                self.acc.x = PLAYER_ACC
+            elif self.steps[self.current_step][0] == "jump_left":
+                self.jump()
+                self.acc.x = -PLAYER_ACC
+            elif self.steps[self.current_step][0] == "right":
+                self.acc.x = PLAYER_ACC
+            elif self.steps[self.current_step][0] == "left":
+                self.acc.x = -PLAYER_ACC
+            else:
+                self.acc.x = 0
+
 
     def load_images(self):
         self.standing_frames = [self.game.spritesheet.get_image(614, 1063, 120, 191),
@@ -69,12 +122,29 @@ class Player(pg.sprite.Sprite):
 
     def update(self):
         self.animate()
+
+        now = pg.time.get_ticks()
+        if self.height > self.record:
+            self.record = self.height
+            self.record_time = now - self.game.gen_time_stamp
+
+
         self.acc = vec(0, PLAYER_GRAV)
-        keys = pg.key.get_pressed()
-        if keys[pg.K_LEFT]:
-            self.acc.x = -PLAYER_ACC
-        if keys[pg.K_RIGHT]:
+        self.do_step()
+        # keys = pg.key.get_pressed()
+        # if keys[pg.K_LEFT]:
+        #     self.acc.x = -PLAYER_ACC
+        # if keys[pg.K_RIGHT]:
+        #     self.acc.x = PLAYER_ACC
+
+        if self.steps[self.current_step][0] == "jump_right" or self.steps[self.current_step][0] == "right":
             self.acc.x = PLAYER_ACC
+        elif self.steps[self.current_step][0] == "jump_left" or self.steps[self.current_step][0] == "left":
+            self.acc.x = -PLAYER_ACC
+        else:
+            self.acc.x = 0
+        if self.end:
+            self.acc.x = 0
 
         # apply friction
         self.acc.x += self.vel.x * PLAYER_FRICTION
@@ -89,7 +159,11 @@ class Player(pg.sprite.Sprite):
         if self.pos.x < 0 - self.rect.width / 2:
             self.pos.x = WIDTH + self.rect.width / 2
 
+        self.height = -self.pos.y
+        self.height -= self.vel.y + 0.5 * self.acc.y
+
         self.rect.midbottom = self.pos
+
 
     def animate(self):
         now = pygame.time.get_ticks()
@@ -123,7 +197,7 @@ class Player(pg.sprite.Sprite):
 
 
 class Cloud(pg.sprite.Sprite):
-    def __init__(self, game):
+    def __init__(self, game, y):
         self._layer = CLOUD_LAYER
         self.groups = game.all_sprites, game.clouds
         pg.sprite.Sprite.__init__(self, self.groups)
@@ -134,7 +208,7 @@ class Cloud(pg.sprite.Sprite):
         scale = random.randrange(50, 101) / 100
         self.image = pg.transform.scale(self.image, (int(self.rect.width * scale), int(self.rect.height * scale)))
         self.rect.x = random.randrange(WIDTH - self.rect.width)
-        self.rect.y = random.randrange(-500, -50)
+        self.rect.y = y
 
     def update(self):
         if self.rect.top > HEIGHT * 2:
@@ -155,8 +229,8 @@ class Platform(pg.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         if random.randrange(100) < POW_SPAWN_PCT:
-            Pow(self.game, self)
-
+            # Pow(self.game, self)
+            pass
 
 class Pow(pg.sprite.Sprite):
     def __init__(self, game, plat):
@@ -179,7 +253,7 @@ class Pow(pg.sprite.Sprite):
 
 
 class Mob(pg.sprite.Sprite):
-    def __init__(self, game):
+    def __init__(self, game, y):
         self._layer = MOB_LAYER
         self.groups = game.all_sprites, game.mobs
         pg.sprite.Sprite.__init__(self, self.groups)
@@ -190,17 +264,16 @@ class Mob(pg.sprite.Sprite):
         self.image_down.set_colorkey(BLACK)
         self.image = self.image_up
         self.rect = self.image.get_rect()
-        self.rect.centerx = random.choice([-100, WIDTH + 100])
+        self.rect.centerx = WIDTH
+        self.rect.centery = y
         self.vx = random.randrange(1, 4)
-        if self.rect.centerx > WIDTH:
-            self.vx *= -1
-        self.rect.y = random.randrange(HEIGHT / 2)
+        self.vx *= random.choice([1, -1])
         self.vy = 0
         self.dy = 0.5
 
     def update(self):
         self.rect.x += self.vx
-        self.vy += self.dy
+        # self.vy += self.dy
         if self.vy > 3 or self.vy < -3:
             self.dy *= -1
         center = self.rect.center
@@ -212,5 +285,7 @@ class Mob(pg.sprite.Sprite):
         self.mask = pg.mask.from_surface(self.image)
         self.rect.center = center
         self.rect.y += self.vy
-        if self.rect.left > WIDTH + 100 or self.rect.right < -100:
-            self.kill()
+        if self.rect.left > WIDTH:
+            self.rect.centerx = 0
+        if self.rect.right < 0:
+            self.rect.centerx = WIDTH

@@ -22,6 +22,17 @@ PLATFORM_LAYER = 1
 POW_LAYER = 1
 MOB_LAYER = 2
 CLOUD_LAYER = 0
+PLATFORM_NUM = 100
+ENEMY_NUM = 50
+STEP_NUM = 20
+
+
+# Evolution variables
+STEP_NUM = 2
+MUTATION_PER = 15
+GEN_TIME = 10
+GEN_NUM = 50
+NEW_STEP = 1
 
 # Starting platforms
 PLATFORM_LIST = [(0, HEIGHT - 60),
@@ -40,3 +51,8 @@ YELLOW = (255, 255, 0)
 LIGHTBLUE = (0, 155, 155)
 cfBLUE = (100, 149, 237)
 BGCOLOR = cfBLUE
+
+
+
+
+#[ [action, time], [action, time] ]
