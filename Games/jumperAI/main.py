@@ -174,7 +174,7 @@ class Game:
             for step in steps:
                 if pl.id > 0:
                     if len(self.best_steps) - STEP_NUM >= 1:
-                        if len(steps) - steps.index(step) <= 1000:
+                        if len(steps) - steps.index(step) <= 500:
                             if random.randrange(1, 100) <= MUTATION_PER:
                                 step[0] = random.choice(self.list_of_steps)
                             if random.randrange(1, 100) <= MUTATION_PER:
