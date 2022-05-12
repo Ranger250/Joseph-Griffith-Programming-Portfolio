@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d8036bf0-2876-4b26-9197-7a89f04ffe1e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 1/Assignments/Burger_Castle/.idea/Burger_Castle.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 1/Assignments/chat_bot/.idea/chat_bot.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 1/Assignments/oregontrail updated/.idea/oregontrail updated.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/ClickerCounter/.idea/ClickerCounter.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Countdown/Bg_10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Countdown/Bg_11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Countdown/Bg_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Countdown/Bg_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Countdown/Bg_4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Countdown/Bg_5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Countdown/Bg_6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Countdown/Bg_7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Countdown/Bg_8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Countdown/Bg_9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Countdown/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Countdown/test.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Vacation Planner/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Vacation Planner/.idea/Vacation Planner.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Vacation Planner/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Vacation Planner/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Vacation Planner/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Assignments/Vacation Planner/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/Countdown Clock/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/Countdown Clock/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/Countdown Clock/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/Countdown Clock/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/Countdown Clock/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/DateTimeProject/.idea/DateTimeProject.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/DateTimeProject/GUI2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/DateTimeProject/StartingGUI.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/DateTimeProject/main2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/Defining Pi/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/Defining Pi/.idea/Defining Pi.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/Defining Pi/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/Defining Pi/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/Defining Pi/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/Defining Pi/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/FinalexamGUI/commonfilefunctions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/FinalexamGUI/exampleText.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/FinalexamGUI/scores.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/FirstGame/assets/MattOglseby - 2.ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/FirstGame/assets/background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/FirstGame/assets/enemy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/FirstGame/assets/player.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/FirstGame/assets/treasure.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/FirstGame/enemy.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/FirstGame/game.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/FirstGame/player.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/FirstGame/settings.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/Readingwritingfiles/TestQuestions" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/Readingwritingfiles/commonfilefunctions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Python Term 2/Projects/TicTacToe/CommonGameFunctions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Assignments/war/card.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Assignments/war/commonGameFunctions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Assignments/war/hands.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Assignments/war/warClasses.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blackjackClasses.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hands.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sendingMessages.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectId" id="241H7iDZvJpbAsF4qF5vfcMBMC5" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunManager" selected="Python.main">
+    <configuration name="blackjackClasses" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="BlackJack" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/blackjackClasses.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="card" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="BlackJack" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/card.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="BlackJack" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="sendingMessages" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="BlackJack" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/sendingMessages.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.blackjackClasses" />
+        <item itemvalue="Python.card" />
+        <item itemvalue="Python.sendingMessages" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d8036bf0-2876-4b26-9197-7a89f04ffe1e" name="Changes" comment="" />
+      <created>1642791006994</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1642791006994</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>
