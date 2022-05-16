@@ -2,6 +2,8 @@
 from settings import *
 from gameFunctions import *
 from lander import *
+from star import *
+from meteor import *
 
 class Game:
     def __init__(self):
@@ -13,18 +15,76 @@ class Game:
         self.clock = pg.time.Clock()
         self.running = True
         self.load_data()
+        self.colors = ["grey", "brown"]
+        self.sizes = ["big", "med", "small", "tiny"]
 
     def load_data(self):
         self.dir = path.dirname(__file__)
         assets_dir = path.join(self.dir, 'assets')
         img_dir = path.join(assets_dir, 'imgs')
+        audio_dir = path.join(assets_dir, "audio")
+        fx_dir = path.join(audio_dir, "fx")
         self.spritesheet = Spritesheet(path.join(img_dir, SPRITESHEET))
+
+        self.meteor_img_list = {}
+        self.meteor_img_list["brown"] = {}
+        self.meteor_img_list["grey"] = {}
+        self.meteor_img_list["brown"]["big"] = []
+        self.meteor_img_list["brown"]["med"] = []
+        self.meteor_img_list["brown"]["small"] = []
+        self.meteor_img_list["brown"]["tiny"] = []
+        self.meteor_img_list["grey"]["big"] = []
+        self.meteor_img_list["grey"]["med"] = []
+        self.meteor_img_list["grey"]["small"] = []
+        self.meteor_img_list["grey"]["tiny"] = []
+
+        meteor_list = ["meteorBrown_big1.png", "meteorBrown_big2.png", "meteorBrown_big3.png", "meteorBrown_big4.png",
+                       "meteorBrown_med1.png", "meteorBrown_med3.png",
+                       "meteorBrown_small1.png", "meteorBrown_small2.png",
+                       "meteorBrown_tiny1.png","meteorBrown_tiny2.png",
+                       "meteorGrey_big1.png", "meteorGrey_big2.png", "meteorGrey_big3.png", "meteorGrey_big4.png",
+                       "meteorGrey_med1.png", "meteorGrey_med2.png",
+                       "meteorGrey_small1.png", "meteorGrey_small2.png",
+                       "meteorGrey_tiny1.png", "meteorGrey_tiny1.png"]
+        counter = 1
+        for img in meteor_list:
+            if counter < 5:
+                self.meteor_img_list["brown"]["big"].append(pg.image.load(path.join(img_dir, img)).convert())
+            elif counter < 7:
+                self.meteor_img_list["brown"]["med"].append(pg.image.load(path.join(img_dir, img)).convert())
+            elif counter < 9:
+                self.meteor_img_list["brown"]["small"].append(pg.image.load(path.join(img_dir, img)).convert())
+            elif counter < 11:
+                self.meteor_img_list["brown"]["tiny"].append(pg.image.load(path.join(img_dir, img)).convert())
+            elif counter < 15:
+                self.meteor_img_list["grey"]["big"].append(pg.image.load(path.join(img_dir, img)).convert())
+            elif counter < 17:
+                self.meteor_img_list["grey"]["med"].append(pg.image.load(path.join(img_dir, img)).convert())
+            elif counter < 19:
+                self.meteor_img_list["grey"]["small"].append(pg.image.load(path.join(img_dir, img)).convert())
+            elif counter < 21:
+                self.meteor_img_list["grey"]["tiny"].append(pg.image.load(path.join(img_dir, img)).convert())
+            counter += 1
+
+        self.shoot_snd = pg.mixer.Sound(path.join(fx_dir, "pew.wav"))
+        self.bullet_img = pg.image.load(path.join(img_dir, "laserRed16.png")).convert()
 
     def new(self):
         # start a new game
         self.all_sprites = pg.sprite.Group()
         self.player = Lander(self)
         self.all_sprites.add(self.player)
+        self.bulletgroup = pg.sprite.Group()
+        self.meteorgroup = pg.sprite.Group()
+
+        for i in range(NUMSTARS):
+            self.all_sprites.add(Star(self, random.randint(0, WIDTH), random.randint(0, HEIGHT)))
+
+        for i in range(NUMMETEORS):
+            self.meteor = Meteor(self, random.choice(self.colors), random.choice(self.sizes), random.randint(0, WIDTH), 0, "down")
+            self.all_sprites.add(self.meteor)
+            self.meteorgroup.add(self.meteor)
+
         self.run()
 
     def run(self):
@@ -49,10 +109,18 @@ class Game:
                     if self.playing:
                         self.playing = False
                     self.running = False
+                if event.key ==  pg.K_SPACE:
+                    self.player.shoot(self.all_sprites, self.bulletgroup, self.bullet_img, self.shoot_snd)
+        hits = pg.sprite.groupcollide(self.meteorgroup, self.bulletgroup, True, True)
+        if hits:
+            # random.choice(expsnd).play()
+            for hit in hits:
+                pass
 
     def update(self):
         # Game Loop - Update
         self.all_sprites.update()
+
 
     def draw(self):
         # Game Loop - draw

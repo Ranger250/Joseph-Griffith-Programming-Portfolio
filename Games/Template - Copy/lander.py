@@ -15,6 +15,8 @@ class Lander(pg.sprite.Sprite):
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
         self.rot = 0
+        self.last_shot = 0
+        self.shoot_delay = 100
 
     def update(self):
         self.rotate()
@@ -24,7 +26,7 @@ class Lander(pg.sprite.Sprite):
             self.rot += PLAYER_ROT_SPEED
         if keys[pg.K_RIGHT]:
             self.rot -= PLAYER_ROT_SPEED
-        if keys[pg.K_SPACE]:
+        if keys[pg.K_UP]:
             self.acc = vec(0, -PLAYER_ACC).rotate(-self.rot)
 
 
@@ -89,6 +91,13 @@ class Lander(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = oldcenter
 
+    def shoot(self, all_sprites, bullet_group, sprite, shoot_snd):
+        now = pg.time.get_ticks()
+        if now - self.last_shot > self.shoot_delay:
+            shoot_snd.play()
+            self.last_shot = now
+            bullet = Bullet(self.rect.centerx, self.rect.centery, sprite, all_sprites, bullet_group, self.rot)
+
 
 class Spritesheet:
     # utility class for loading and parsing spritesheets
@@ -101,3 +110,36 @@ class Spritesheet:
         image.blit(self.spritesheet, (0, 0), (x, y, width, height))
         image = pg.transform.scale(image, (width // 2, height // 2))
         return image
+
+class Bullet(pg.sprite.Sprite):
+    def __init__(self, x, y, sprite, all_sprites, bullet_group, rot):
+        super(Bullet, self).__init__()
+        # Make a player that is a green square 50x50
+        self.image = sprite
+        self.image = pg.transform.scale(self.image, (10, 20))
+        self.image.set_colorkey(BLACK)
+
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+        self.pos = vec(x, y)
+        self.vel = vec(5, 5)
+        self.acc = vec(0, 0)
+        self.rot = rot
+        all_sprites.add(self)
+        bullet_group.add(self)
+        self.vel = vec(0, -5).rotate(-self.rot)
+        self.rotate()
+
+    def update(self):
+        if self.rect.centerx < 0 or self.rect.centerx > WIDTH or self.rect.centery < 0 or self.rect.centery > HEIGHT:
+            self.kill()
+        self.pos += self.vel + 0.5 * self.acc
+        self.rect.center = self.pos
+
+    def rotate(self):
+        self.rot = (self.rot) % 360
+        newimg = pg.transform.rotate(self.image, self.rot)
+        oldcenter = self.rect.center
+        self.image = newimg
+        self.rect = self.image.get_rect()
+        self.rect.center = oldcenter
