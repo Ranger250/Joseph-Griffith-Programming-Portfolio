@@ -84,6 +84,8 @@ class Game:
             self.meteor = Meteor(self, random.choice(self.colors), random.choice(self.sizes), random.randint(0, WIDTH), 0, "down")
             self.all_sprites.add(self.meteor)
             self.meteorgroup.add(self.meteor)
+        self.num_meteors = NUMMETEORS
+        self.start = pg.time.get_ticks()
 
         self.run()
 
@@ -113,13 +115,31 @@ class Game:
                     self.player.shoot(self.all_sprites, self.bulletgroup, self.bullet_img, self.shoot_snd)
         hits = pg.sprite.groupcollide(self.meteorgroup, self.bulletgroup, True, True)
         if hits:
+            self.player.add_score()
             # random.choice(expsnd).play()
             for hit in hits:
-                pass
+                if hit.split == False:
+                    hit.split()
+            hits = pg.sprite.groupcollide(self.meteorgroup, self.bulletgroup, True, True)
+
+
+
+        hits = pg.sprite.spritecollide(self.player, self.meteorgroup, False, pg.sprite.collide_circle)
+        if hits:
+            self.playing = False
 
     def update(self):
+        print(self.num_meteors)
         # Game Loop - Update
         self.all_sprites.update()
+        now = pg.time.get_ticks()
+        if now - self.start > METEOR_DELAY:
+            self.num_meteors += 1
+            self.start = now
+        if len(self.meteorgroup) < self.num_meteors:
+            self.meteor = Meteor(self, random.choice(self.colors), random.choice(self.sizes), random.randint(0, WIDTH), 0, "down")
+            self.all_sprites.add(self.meteor)
+            self.meteorgroup.add(self.meteor)
 
 
     def draw(self):
@@ -155,9 +175,10 @@ class Game:
             return
         self.screen.fill(BGCOLOR)
         draw_text(self.screen, "GAME OVER", 48, WHITE, WIDTH / 2, HEIGHT / 4)
-        draw_text(self.screen, "Score ", 22, WHITE, WIDTH / 2, HEIGHT / 2)
+        draw_text(self.screen, "Score: " + str(self.player.score), 22, WHITE, WIDTH / 2, HEIGHT / 2)
         draw_text(self.screen, "Press a key to play again", 22, WHITE, WIDTH / 2, HEIGHT * 3 / 4)
         pg.display.flip()
+        time.sleep(1)
         self.wait_for_key()
 
 g = Game()

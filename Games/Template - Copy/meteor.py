@@ -12,8 +12,11 @@ class Meteor(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.pos = vec(x, y)
-        yspeed = random.randint(-4, 4)
-        xspeed = random.randint(-4, 4)
+        self.color = color
+        self.splitted = False
+        self.radius = (self.rect.width * .85) / 2
+        yspeed = random.randint(-METEOR_SPEED, METEOR_SPEED)
+        xspeed = random.randint(-METEOR_SPEED, METEOR_SPEED)
         if dir == "up":
             self.vel = vec(xspeed, -abs(yspeed))
         if dir == "right":
@@ -22,6 +25,12 @@ class Meteor(pg.sprite.Sprite):
             self.vel = vec(-abs(xspeed), yspeed)
         if dir == "down":
             self.vel = vec(xspeed, abs(yspeed))
+
+        self.sizes = ["big", "med", "small", "tiny"]
+        for i in range(len(self.sizes)):
+            if size == self.sizes[i]:
+                self.size = i
+
         self.acc = vec(0, 0)
         self.rot = random.randint(-6, 6)
 
@@ -38,33 +47,6 @@ class Meteor(pg.sprite.Sprite):
             self.pos.y = HEIGHT
 
 
-        self.rect.x += 2
-        hits = pg.sprite.spritecollide(self, self.game.bulletgroup, False)
-        self.rect.x -= 2
-        if hits:
-            pass
-
-        self.rect.x -= 2
-        hits = pg.sprite.spritecollide(self, self.game.bulletgroup, False)
-        self.rect.x += 2
-        if hits:
-            pass
-
-        self.rect.y += 2
-        hits = pg.sprite.spritecollide(self, self.game.bulletgroup, False)
-        self.rect.y -= 2
-        if hits:
-            pass
-
-        self.rect.y -= 2
-        hits = pg.sprite.spritecollide(self, self.game.bulletgroup, False)
-        self.rect.y += 2
-        if hits:
-            pass
-
-
-
-
         self.pos += self.vel
 
         self.rect.center = self.pos
@@ -76,3 +58,11 @@ class Meteor(pg.sprite.Sprite):
         self.image = newimg
         self.rect = self.image.get_rect()
         self.rect.center = oldcenter
+
+    def split(self, dir):
+        self.size += 1
+        if self.size < 4:
+            for i in range(random.randint(2, 3)):
+                meteor = Meteor(self.game, self.color, self.sizes[self.size], self.pos.x, self.pos.y, dir)
+                self.game.all_sprites.add(meteor)
+                self.game.meteorgroup.add(meteor)

@@ -7,8 +7,8 @@ import random
 TITLE = "Template"
 
 # Screen size
-WIDTH = 400
-HEIGHT= 650
+WIDTH = 650
+HEIGHT = 1000
 
 # clock speed
 FPS = 30

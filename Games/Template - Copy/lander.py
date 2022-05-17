@@ -6,10 +6,10 @@ class Lander(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)
         self.game = game
         self.image_store = self.game.spritesheet.get_image(52, 244, 48, 48)
-        self.image_store = pg.transform.scale(self.image_store, (35, 35))
+        self.image_store = pg.transform.scale(self.image_store, (25, 25))
         self.image_store.set_colorkey(BLACK)
+        self.rect = self.image_store.get_rect()
         self.image = self.image_store
-        self.rect = self.image.get_rect()
         self.rect.center = (WIDTH / 2, HEIGHT / 2)
         self.pos = vec(WIDTH / 2, HEIGHT / 2)
         self.vel = vec(0, 0)
@@ -17,6 +17,8 @@ class Lander(pg.sprite.Sprite):
         self.rot = 0
         self.last_shot = 0
         self.shoot_delay = 100
+        self.score = 0
+        self.radius = (self.rect.width * .85) / 2
 
     def update(self):
         self.rotate()
@@ -31,7 +33,10 @@ class Lander(pg.sprite.Sprite):
 
 
         # apply friction
-        # self.acc.x += self.vel.x * PLAYER_FRICTION
+        self.acc.x += self.vel.x * PLAYER_FRICTION
+        self.acc.y += self.vel.y  * PLAYER_FRICTION
+
+
         # equations of motion
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
@@ -96,7 +101,10 @@ class Lander(pg.sprite.Sprite):
         if now - self.last_shot > self.shoot_delay:
             shoot_snd.play()
             self.last_shot = now
-            bullet = Bullet(self.rect.centerx, self.rect.centery, sprite, all_sprites, bullet_group, self.rot)
+            bullet = Bullet(self.rect.centerx, self.rect.centery, sprite, all_sprites, bullet_group, self.rot, self.game)
+
+    def add_score(self):
+        self.score += 10
 
 
 class Spritesheet:
@@ -112,9 +120,10 @@ class Spritesheet:
         return image
 
 class Bullet(pg.sprite.Sprite):
-    def __init__(self, x, y, sprite, all_sprites, bullet_group, rot):
+    def __init__(self, x, y, sprite, all_sprites, bullet_group, rot, game):
         super(Bullet, self).__init__()
         # Make a player that is a green square 50x50
+        self.game = game
         self.image = sprite
         self.image = pg.transform.scale(self.image, (10, 20))
         self.image.set_colorkey(BLACK)
@@ -122,17 +131,94 @@ class Bullet(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.pos = vec(x, y)
-        self.vel = vec(5, 5)
+        self.vel = vec(0, 0)
         self.acc = vec(0, 0)
         self.rot = rot
         all_sprites.add(self)
         bullet_group.add(self)
-        self.vel = vec(0, -5).rotate(-self.rot)
+        self.vel = vec(0, -6).rotate(-self.rot)
         self.rotate()
 
     def update(self):
         if self.rect.centerx < 0 or self.rect.centerx > WIDTH or self.rect.centery < 0 or self.rect.centery > HEIGHT:
             self.kill()
+
+        self.rect.y += BULLETRAD
+        hits = pg.sprite.spritecollide(self, self.game.meteorgroup, False)
+        if hits:
+            for hit in hits:
+                if not hit.splitted:
+                    hit.split("up")
+                    hit.splitted = True
+            self.rect.y -= BULLETRAD
+        else:
+            self.rect.x += BULLETRAD
+            hits = pg.sprite.spritecollide(self, self.game.meteorgroup, False)
+            self.rect.x -= BULLETRAD
+            self.rect.y -= BULLETRAD
+            if hits:
+                for hit in hits:
+                    if not hit.splitted:
+                        hit.split("up")
+                        hit.splitted = True
+
+        self.rect.y -= BULLETRAD
+        hits = pg.sprite.spritecollide(self, self.game.meteorgroup, False)
+        if hits:
+            for hit in hits:
+                if not hit.splitted:
+                    hit.split("down")
+                    hit.splitted = True
+            self.rect.y += BULLETRAD
+        else:
+            self.rect.x -= BULLETRAD
+            hits = pg.sprite.spritecollide(self, self.game.meteorgroup, False)
+            self.rect.x += BULLETRAD
+            self.rect.y += BULLETRAD
+            if hits:
+                for hit in hits:
+                    if not hit.splitted:
+                        hit.split("down")
+                        hit.splitted = True
+
+        self.rect.x += BULLETRAD
+        hits = pg.sprite.spritecollide(self, self.game.meteorgroup, False)
+        if hits:
+            for hit in hits:
+                if not hit.splitted:
+                    hit.split("left")
+                    hit.splitted = True
+            self.rect.x -= BULLETRAD
+        else:
+            self.rect.y += BULLETRAD
+            hits = pg.sprite.spritecollide(self, self.game.meteorgroup, False)
+            self.rect.y -= BULLETRAD
+            self.rect.x -= BULLETRAD
+            if hits:
+                for hit in hits:
+                    if not hit.splitted:
+                        hit.split("left")
+                        hit.splitted = True
+
+        self.rect.x -= BULLETRAD
+        hits = pg.sprite.spritecollide(self, self.game.meteorgroup, False)
+        if hits:
+            for hit in hits:
+                if not hit.splitted:
+                    hit.split("right")
+                    hit.splitted = True
+            self.rect.x += BULLETRAD
+        else:
+            self.rect.y -= BULLETRAD
+            hits = pg.sprite.spritecollide(self, self.game.meteorgroup, False)
+            self.rect.y += BULLETRAD
+            self.rect.x += BULLETRAD
+            if hits:
+                for hit in hits:
+                    if not hit.splitted:
+                        hit.split("right")
+                        hit.splitted = True
+
         self.pos += self.vel + 0.5 * self.acc
         self.rect.center = self.pos
 
@@ -143,3 +229,5 @@ class Bullet(pg.sprite.Sprite):
         self.image = newimg
         self.rect = self.image.get_rect()
         self.rect.center = oldcenter
+
+

@@ -2,6 +2,7 @@
 import pygame as pg
 import random
 from os import path
+import time
 
 # game options/settings
 TITLE = "My Game"
@@ -11,7 +12,10 @@ FPS = 60
 FONT_NAME = pg.font.match_font("ariel")
 SPRITESHEET = "simpleSpace_sheet.png"
 NUMSTARS = 200
-NUMMETEORS = 10
+NUMMETEORS = 2
+BULLETRAD = 3
+METEOR_DELAY = 5000
+METEOR_SPEED = 3
 
 
 # define colors
@@ -26,5 +30,7 @@ BGCOLOR = BLACK
 
 #player settings
 PLAYER_GRAV = 0.0
-PLAYER_ACC = 0.05
-PLAYER_ROT_SPEED = 3
+PLAYER_ACC = 0.1
+PLAYER_ROT_SPEED = 5
+PLAYER_FRICTION = -.01
+
