@@ -9,7 +9,7 @@
 # Installations
 -------------------------
 
-installations
+Python 3.0 or later
 
 
 -------------------------
