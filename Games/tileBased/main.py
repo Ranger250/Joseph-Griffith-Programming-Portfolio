@@ -1,6 +1,8 @@
 # Tile Based Game
 from settings import *
 from gameFunctions import *
+from sprites import *
+from tilemap import *
 
 class Game:
     def __init__(self):
@@ -10,22 +12,34 @@ class Game:
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
+        pg.key.set_repeat(500, 100)
+
         self.running = True
         self.load_data()
 
     def load_data(self):
-        pass
+        game_folder = path.dirname(__file__)
+        self.map = Map(path.join(game_folder, "map2.txt"))
 
     def new(self):
         # start a new game
         self.all_sprites = pg.sprite.Group()
+        self.walls = pg.sprite.Group()
+        for row, tiles in enumerate(self.map.data):
+            for col, tile in enumerate(tiles):
+                if tile == '1':
+                    Wall(self, col, row)
+                if tile == 'P':
+                    self.player = Player(self, col, row)
+        self.camera = Camera(self.map.width, self.map.height)
+
         self.run()
 
     def run(self):
         # Game Loop
         self.playing = True
         while self.playing:
-            self.clock.tick(FPS)
+            self.dt = self.clock.tick(FPS) / 1000
             self.events()
             self.update()
             self.draw()
@@ -47,11 +61,20 @@ class Game:
     def update(self):
         # Game Loop - Update
         self.all_sprites.update()
+        self.camera.update(self.player)
+
+    def draw_grid(self):
+        for x in range(0, WIDTH, TILESIZE):
+            pg.draw.line(self.screen, LIGHTGREY, (x, 0), (x, HEIGHT))
+        for y in range(0, HEIGHT, TILESIZE):
+            pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
 
     def draw(self):
         # Game Loop - draw
         self.screen.fill(BGCOLOR)
-        self.all_sprites.draw(self.screen)
+        self.draw_grid()
+        for sprite in self.all_sprites:
+            self.screen.blit(sprite.image, self.camera.apply(sprite))
         # *after* drawing everything, flip the display
         pg.display.flip()
 

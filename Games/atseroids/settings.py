@@ -5,7 +5,7 @@ from os import path
 import time
 
 # game options/settings
-TITLE = "My Game"
+TITLE = "Asteroids"
 WIDTH = 800
 HEIGHT = 600
 FPS = 60

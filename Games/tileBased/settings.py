@@ -1,11 +1,13 @@
 # imports
 import pygame as pg
 import random
+from os import path
 
 # game options/settings
 TITLE = "My Game"
-WIDTH = 480
-HEIGHT = 600
+TILESIZE = 24
+WIDTH = TILESIZE * 32
+HEIGHT = TILESIZE * 24
 FPS = 60
 FONT_NAME = pg.font.match_font("ariel")
 
@@ -17,4 +19,13 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 cfBLUE = (100, 149, 237)
-BGCOLOR = cfBLUE
+DARKGREY = (40, 40, 40)
+LIGHTGREY = (100, 100, 100)
+BGCOLOR = DARKGREY
+
+
+GRIDWIDTH = WIDTH / TILESIZE
+GRIDHEIGHT = HEIGHT/TILESIZE
+
+# Player setting
+PLAYER_SPEED = WIDTH // 3
